@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+from os import getenv
 from typing import Dict, Union
 
 import redis_lock
@@ -12,7 +13,11 @@ from six.moves.urllib.parse import urljoin
 
 from integration.rest_service.providers import exceptions
 
-conn = StrictRedis()
+conn = StrictRedis(
+    host=getenv("REDIS_CACHE_HOSTNAME"),
+    port=int(getenv("REDIS_CACHE_PORT")),
+    db=int(getenv("REDIS_CACHE_DATABASE")),
+)
 config = {"DEBUG": True, "CACHE_TYPE": "simple", "CACHE_DEFAULT_TIMEOUT": 300}
 app = Flask(__name__)
 app.config.from_mapping(config)
