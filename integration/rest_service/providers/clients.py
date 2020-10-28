@@ -1,23 +1,15 @@
 from __future__ import unicode_literals
 
-from os import getenv
 from typing import Dict, Union
 
-import redis_lock
 import requests
 from flask import Flask
 from flask_caching import Cache
-from redis import StrictRedis
 from requests import HTTPError
 from six.moves.urllib.parse import urljoin
 
 from integration.rest_service.providers import exceptions
 
-conn = StrictRedis(
-    host=getenv("REDIS_CACHE_HOSTNAME"),
-    port=int(getenv("REDIS_CACHE_PORT")),
-    db=int(getenv("REDIS_CACHE_DATABASE")),
-)
 config = {"DEBUG": True, "CACHE_TYPE": "simple", "CACHE_DEFAULT_TIMEOUT": 300}
 app = Flask(__name__)
 app.config.from_mapping(config)
@@ -40,15 +32,16 @@ class GenericAPIClient(object):
         self._set_headers(force_refresh=True)
 
     def _set_headers(self, force_refresh=False):
-        with redis_lock.Lock(conn, f"bgc-{self.base_url}", expire=60):
-            if force_refresh:
-                headers = self.get_headers()
-            else:
-                headers = cache.get(f"bgc-{self.base_url}")
+        if force_refresh:
+            headers = self.get_headers()
+        else:
+            headers = cache.get(f"bgc-{self.base_url}")
 
-                if not headers:
-                    headers = self.get_headers()
-                    cache.set(f"bgc-{self.base_url}", headers)
+            if not headers:
+                headers = self.get_headers()
+                cache.set(f"bgc-{self.base_url}", headers)
+
+        self.client.headers.update(headers)
 
     def get_headers(self) -> Dict[str, str]:
         return dict()
