@@ -27,6 +27,7 @@ requests==2.21.0
 requests-toolbelt==0.9.1
 rfc3986==1.4.0
 seed-isort-config==2.2.0
+sentry-sdk==0.14.0
 six==1.15.0
 toml==0.10.1
 tqdm==4.50.2
