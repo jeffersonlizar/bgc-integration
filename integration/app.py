@@ -154,10 +154,12 @@ def run_app(cls):
 
     @app.route("/webhook", methods=["POST"])
     def webhook():
-        if background_check_adapter.register_webhook_event(request):
+        request_status = background_check_adapter.register_webhook_event(request)
+
+        if request_status == 200:
             return json.dumps({"success": True}), 200
         else:
-            return json.dumps({"success": False}), 403
+            return json.dumps({"success": False}), request_status
 
     @app.route("/healthz", methods=["GET"])
     def health():
