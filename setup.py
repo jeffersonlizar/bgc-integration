@@ -4,7 +4,7 @@ import setuptools
 
 setup(
     name="bgc_integrations",
-    version="0.4dev",
+    version="0.5dev",
     packages=setuptools.find_packages(),
     license="",
     long_description=open("README.md").read(),
@@ -14,5 +14,6 @@ setup(
         "requests==2.21.0",
         "six==1.15.0",
         "Flask-Caching==1.8",
+        "sentry-sdk==0.14.0",
     ],
 )
