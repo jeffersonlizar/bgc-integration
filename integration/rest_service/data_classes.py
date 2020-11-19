@@ -32,7 +32,7 @@ class ErrorDetail:
 
 @dataclass
 class Response:
-    status: str
+    status: str = None
     external_id: str = None
     metadata: Dict = None
     error_details: List[ErrorDetail] = None
