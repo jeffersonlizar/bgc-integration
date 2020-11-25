@@ -74,6 +74,7 @@ def run_app(cls):
             phone=data.get("phone"),
             state_code=data.get("state_code"),
             city_name=data.get("city_name"),
+            city_code=data.get("city_code"),
             transportation=data.get("transportation"),
             start_url=data.get("start_url"),
             external_id=data.get("external_id"),
