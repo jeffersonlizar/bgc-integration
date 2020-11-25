@@ -18,6 +18,7 @@ class CheckData:
     phone: str
     state_code: str
     city_name: str
+    city_code: str
     transportation: str
     external_id: str
     start_url: str
