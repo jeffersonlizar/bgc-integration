@@ -55,27 +55,27 @@ class GenericAPIClient(object):
     def handle_error(self, response):
         if response.status_code == 400:
             raise exceptions.BadRequestAPIException(
-                code=response.status_code, message=response.content
+                code=response.status_code, error_message=response.content
             )
         elif response.status_code == 401:
             raise exceptions.UnauthorizedAPIException(
-                code=response.status_code, message=response.content
+                code=response.status_code, error_message=response.content
             )
         elif response.status_code == 403:
             raise exceptions.ForbiddenAPIException(
-                code=response.status_code, message=response.content
+                code=response.status_code, error_message=response.content
             )
         elif response.status_code == 404:
             raise exceptions.NotFoundAPIException(
-                code=response.status_code, message=response.content
+                code=response.status_code, error_message=response.content
             )
         elif response.status_code == 408:
             raise exceptions.TimeoutAPIException(
-                code=response.status_code, message=response.content
+                code=response.status_code, error_message=response.content
             )
         elif response.status_code == 422:
             raise exceptions.UnprocessableEntityAPIException(
-                code=response.status_code, message=response.content
+                code=response.status_code, error_message=response.content
             )
 
     def request(
