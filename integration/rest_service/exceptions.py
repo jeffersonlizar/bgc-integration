@@ -7,5 +7,4 @@ class GenericSatelliteException(Exception):
 
 
 class UnauthorizedSatelliteException(GenericSatelliteException):
-    def __init__(self, *args, **kwargs):
-        self.error_code = "SATELLITE_UNAUTHORIZED_ERROR"
+    error_code = "SATELLITE_UNAUTHORIZED_ERROR"

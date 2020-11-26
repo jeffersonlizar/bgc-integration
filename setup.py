@@ -4,7 +4,7 @@ import setuptools
 
 setup(
     name="bgc_integrations",
-    version="0.7dev",
+    version="0.62dev",
     packages=setuptools.find_packages(),
     license="",
     long_description=open("README.md").read(),
