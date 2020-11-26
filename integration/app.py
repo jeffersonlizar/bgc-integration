@@ -89,7 +89,7 @@ def run_app(cls):
         password = str(base64.b64decode(signature), "utf-8")
 
         if password != getenv("REQUEST_PASSWORD"):
-            return get_error_response(UnauthorizedSatelliteException, 403)
+            return get_error_response(UnauthorizedSatelliteException(error_message='Satellite unauthorized exception'), 403)
 
     @app.route("/create_check", methods=["POST"])
     def create_check():
