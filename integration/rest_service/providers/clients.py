@@ -69,12 +69,12 @@ class GenericAPIClient(object):
             raise exceptions.NotFoundAPIException(
                 code=response.status_code, message=response.content
             )
-        elif response.status_code == 422:
-            raise exceptions.UnprocessableEntityAPIException(
+        elif response.status_code == 408:
+            raise exceptions.TimeoutAPIException(
                 code=response.status_code, message=response.content
             )
-        else:
-            raise exceptions.GenericErrorDetailException(
+        elif response.status_code == 422:
+            raise exceptions.UnprocessableEntityAPIException(
                 code=response.status_code, message=response.content
             )
 
