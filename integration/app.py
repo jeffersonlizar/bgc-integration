@@ -57,9 +57,14 @@ def run_app(cls):
         return data
 
     def get_error_response(e, code):
+        try:
+            error_message = e.error_message.decode()
+        except AttributeError:
+            error_message = e.error_message
+
         return jsonify(
             Response(
-                error_details=[ErrorDetail(code=e.error_code, message=e.error_message)],
+                error_details=[ErrorDetail(code=e.error_code, message=error_message)],
             )
         ), code
 
