@@ -77,6 +77,10 @@ class GenericAPIClient(object):
             raise exceptions.UnprocessableEntityAPIException(
                 code=response.status_code, error_message=response.content
             )
+        else:
+            raise exceptions.UnhandledErrorAPIException(
+                code=response.status_code, error_message=response.content
+            )
 
     def request(
         self,

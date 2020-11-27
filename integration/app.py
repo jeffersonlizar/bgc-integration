@@ -9,18 +9,10 @@ from flask import Flask, jsonify, request
 
 from integration.rest_service.adapters import BackgroundCheckClientAdapter
 from integration.rest_service.data_classes import CheckData, ErrorDetail, Response
-from integration.rest_service.providers.exceptions import (
-    BadRequestAPIException,
-    ForbiddenAPIException,
-    NotFoundAPIException,
-    ServiceUnavailableAPIException,
-    TimeoutAPIException,
-    UnauthorizedAPIException,
-    UnprocessableEntityAPIException,
-)
-from integration.rest_service.exceptions import  (
-    UnauthorizedSatelliteException
-)
+from integration.rest_service.providers.exceptions import GenericAPIException
+from integration.rest_service.exceptions import UnauthorizedSatelliteException
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -105,26 +97,8 @@ def run_app(cls):
         try:
             response_data = background_check_adapter.create_check(data=check_data)
             return response_data
-        except BadRequestAPIException as e:
-            logger.info("BGC adapter bad request exception", extra=get_logger_data(check_data, e.error_message))
-            return get_error_response(e, 400)
-        except ForbiddenAPIException as e:
-            logger.info("BGC adapter forbidden exception", extra=get_logger_data(check_data, e.error_message))
-            return get_error_response(e, 400)
-        except NotFoundAPIException as e:
-            logger.info("BGC adapter not found exception", extra=get_logger_data(check_data, e.error_message))
-            return get_error_response(e, 400)
-        except ServiceUnavailableAPIException as e:
-            logger.info("BGC adapter service unavailable exception", extra=get_logger_data(check_data, e.error_message))
-            return get_error_response(e, 400)
-        except TimeoutAPIException as e:
-            logger.info("BGC adapter timeout exception", extra=get_logger_data(check_data, e.error_message))
-            return get_error_response(e, 400)
-        except UnauthorizedAPIException as e:
-            logger.info("BGC adapter unauthorized exception", extra=get_logger_data(check_data, e.error_message))
-            return get_error_response(e, 400)
-        except UnprocessableEntityAPIException as e:
-            logger.info("BGC adapter unprocessable entity exception", extra=get_logger_data(check_data, e.error_message))
+        except GenericAPIException as e:
+            logger.info(f"BGC request error {e.error_message}", extra=get_logger_data(check_data, e.error_message))
             return get_error_response(e, 400)
 
     @app.route("/get_check", methods=["POST"])
@@ -138,26 +112,8 @@ def run_app(cls):
         try:
             response_data = background_check_adapter.get_check(data=check_data)
             return response_data
-        except BadRequestAPIException as e:
-            logger.info("BGC adapter bad request exception", extra=get_logger_data(check_data, e.error_message))
-            return get_error_response(e, 400)
-        except ForbiddenAPIException as e:
-            logger.info("BGC adapter forbidden exception", extra=get_logger_data(check_data, e.error_message))
-            return get_error_response(e, 400)
-        except NotFoundAPIException as e:
-            logger.info("BGC adapter not found exception", extra=get_logger_data(check_data, e.error_message))
-            return get_error_response(e, 400)
-        except ServiceUnavailableAPIException as e:
-            logger.info("BGC adapter service unavailable exception", extra=get_logger_data(check_data, e.error_message))
-            return get_error_response(e, 400)
-        except TimeoutAPIException as e:
-            logger.info("BGC adapter timeout exception", extra=get_logger_data(check_data, e.error_message))
-            return get_error_response(e, 400)
-        except UnauthorizedAPIException as e:
-            logger.info("BGC adapter unauthorized exception", extra=get_logger_data(check_data, e.error_message))
-            return get_error_response(e, 400)
-        except UnprocessableEntityAPIException as e:
-            logger.info("BGC adapter unprocessable entity exception", extra=get_logger_data(check_data, e.error_message))
+        except GenericAPIException as e:
+            logger.info(f"BGC request error {e.error_message}", extra=get_logger_data(check_data, e.error_message))
             return get_error_response(e, 400)
 
     @app.route("/webhook", methods=["POST"])
