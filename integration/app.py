@@ -84,12 +84,16 @@ def run_app(cls):
 
     def validate_request(signature):
         password = str(base64.b64decode(signature), "utf-8")
-        return password == getenv("REQUEST_PASSWORD")
+
+        if not password == getenv("REQUEST_PASSWORD"):
+            raise UnauthorizedSatelliteException(error_message='Satellite unauthorized exception')
 
     @app.route("/create_check", methods=["POST"])
     def create_check():
-        if not validate_request(request.headers.get("Authorization")):
-            return get_error_response(UnauthorizedSatelliteException(error_message='Satellite unauthorized exception'), 403)
+        try:
+            validate_request(request.headers.get("Authorization"))
+        except UnauthorizedSatelliteException as e:
+            return get_error_response(e, 403)
 
         data = json.loads(request.data)
         check_data = get_check_data(data)
@@ -103,8 +107,10 @@ def run_app(cls):
 
     @app.route("/get_check", methods=["POST"])
     def get_check():
-        if not validate_request(request.headers.get("Authorization")):
-            return get_error_response(UnauthorizedSatelliteException(error_message='Satellite unauthorized exception'), 403)
+        try:
+            validate_request(request.headers.get("Authorization"))
+        except UnauthorizedSatelliteException as e:
+            return get_error_response(e, 403)
 
         data = json.loads(request.data)
         check_data = get_check_data(data)
