@@ -1,35 +1,10 @@
-class GenericAPIException(Exception):
+class GenericSatelliteException(Exception):
     def __init__(self, *args, **kwargs):
-        self.message = kwargs.get("message")
-        self.status_code = kwargs.get("status_code")
+        self.error_message = kwargs.get("error_message")
 
     def __str__(self):
-        return "{}".format(self.message)
+        return "{}".format(self.error_message)
 
 
-class BadRequestAPIException(GenericAPIException):
-    pass
-
-
-class UnauthorizedAPIException(GenericAPIException):
-    pass
-
-
-class ForbiddenAPIException(GenericAPIException):
-    pass
-
-
-class NotFoundAPIException(GenericAPIException):
-    pass
-
-
-class UnprocessableEntityAPIException(GenericAPIException):
-    pass
-
-
-class GenericErrorDetailException(GenericAPIException):
-    pass
-
-
-class ImproperlyConfigured(GenericAPIException):
-    pass
+class UnauthorizedSatelliteException(GenericSatelliteException):
+    error_code = "SATELLITE_UNAUTHORIZED_ERROR"
