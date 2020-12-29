@@ -127,10 +127,7 @@ def run_app(cls):
     def webhook():
         request_status = background_check_adapter.register_webhook_event(request)
 
-        if request_status == 200:
-            return {}, 200
-        else:
-            return {}, request_status
+        return {}, request_status
 
     @app.route("/healthz", methods=["GET"])
     def health():
