@@ -67,6 +67,7 @@ def run_app(cls):
             no_middle_name=data.get("no_middle_name"),
             last_name=data.get("last_name"),
             email=data.get("email"),
+            dni=data.get("dni"),
             birthdate=data.get("birthdate"),
             social_security_number=data.get("social_security_number"),
             zip_code=data.get("zip_code"),

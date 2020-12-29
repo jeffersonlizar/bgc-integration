@@ -10,6 +10,7 @@ class CheckData:
     no_middle_name: bool
     last_name: str
     email: str
+    dni: str
     birthdate: date
     social_security_number: str
     zip_code: str
