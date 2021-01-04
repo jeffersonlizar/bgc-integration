@@ -15,7 +15,7 @@ from integration.rest_service.providers.exceptions import GenericAPIException
 logger = logging.getLogger(__name__)
 
 
-ENVIRONMENT = getenv("FLASK_ENVIRONMENT", "local")
+ENVIRONMENT = getenv("FLASK_ENV", "local")
 SENTRY_DSN = getenv("SENTRY_DSN", None)
 
 if SENTRY_DSN:
