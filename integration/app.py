@@ -107,7 +107,7 @@ def run_app(cls):
 
         try:
             response_data = background_check_adapter.create_check(data=check_data)
-            return response_data
+            return jsonify(response_data)
         except GenericAPIException as e:
             logger.info(
                 f"BGC request error {e.error_message}",
@@ -127,7 +127,7 @@ def run_app(cls):
 
         try:
             response_data = background_check_adapter.get_check(data=check_data)
-            return response_data
+            return jsonify(response_data)
         except GenericAPIException as e:
             logger.info(
                 f"BGC request error {e.error_message}",
