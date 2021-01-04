@@ -1,17 +1,16 @@
 import base64
 import json
 import logging
-import sentry_sdk
 from json import JSONDecodeError
 from os import getenv
 
+import sentry_sdk
 from flask import Flask, jsonify, request
 
 from integration.rest_service.adapters import BackgroundCheckClientAdapter
 from integration.rest_service.data_classes import CheckData, ErrorDetail, Response
-from integration.rest_service.providers.exceptions import GenericAPIException
 from integration.rest_service.exceptions import UnauthorizedSatelliteException
-
+from integration.rest_service.providers.exceptions import GenericAPIException
 
 logger = logging.getLogger(__name__)
 
@@ -20,10 +19,10 @@ ENVIRONMENT = getenv("FLASK_ENVIRONMENT", "local")
 SENTRY_DSN = getenv("SENTRY_DSN", None)
 
 if SENTRY_DSN:
-  sentry_sdk.init(
-    SENTRY_DSN,
-    environment=ENVIRONMENT,
-  )
+    sentry_sdk.init(
+        SENTRY_DSN,
+        environment=ENVIRONMENT,
+    )
 
 
 def run_app(cls):
@@ -54,11 +53,16 @@ def run_app(cls):
         except AttributeError:
             error_message = e.error_message
 
-        return jsonify(
-            Response(
-                error_details=[ErrorDetail(code=e.error_code, message=error_message)],
-            )
-        ), code
+        return (
+            jsonify(
+                Response(
+                    error_details=[
+                        ErrorDetail(code=e.error_code, message=error_message)
+                    ],
+                )
+            ),
+            code,
+        )
 
     def get_check_data(data):
         return CheckData(
@@ -87,7 +91,9 @@ def run_app(cls):
         password = str(base64.b64decode(signature), "utf-8")
 
         if not password == getenv("REQUEST_PASSWORD"):
-            raise UnauthorizedSatelliteException(error_message='Satellite unauthorized exception')
+            raise UnauthorizedSatelliteException(
+                error_message="Satellite unauthorized exception"
+            )
 
     @app.route("/create_check", methods=["POST"])
     def create_check():
@@ -103,7 +109,10 @@ def run_app(cls):
             response_data = background_check_adapter.create_check(data=check_data)
             return response_data
         except GenericAPIException as e:
-            logger.info(f"BGC request error {e.error_message}", extra=get_logger_data(check_data, e.error_message))
+            logger.info(
+                f"BGC request error {e.error_message}",
+                extra=get_logger_data(check_data, e.error_message),
+            )
             return get_error_response(e, 400)
 
     @app.route("/get_check", methods=["POST"])
@@ -120,7 +129,10 @@ def run_app(cls):
             response_data = background_check_adapter.get_check(data=check_data)
             return response_data
         except GenericAPIException as e:
-            logger.info(f"BGC request error {e.error_message}", extra=get_logger_data(check_data, e.error_message))
+            logger.info(
+                f"BGC request error {e.error_message}",
+                extra=get_logger_data(check_data, e.error_message),
+            )
             return get_error_response(e, 400)
 
     @app.route("/webhook", methods=["POST"])
