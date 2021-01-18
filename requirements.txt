@@ -34,5 +34,6 @@ tqdm==4.50.2
 twine==3.2.0
 typing-extensions==3.7.4.3
 urllib3==1.24.3
+vcrpy==2.0.1
 webencodings==0.5.1
 Werkzeug==1.0.1
