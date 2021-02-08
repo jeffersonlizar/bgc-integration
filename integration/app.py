@@ -68,7 +68,6 @@ def run_app(cls):
         return CheckData(
             first_name=data.get("first_name"),
             middle_names=data.get("middle_names"),
-            no_middle_name=data.get("no_middle_name"),
             last_name=data.get("last_name"),
             email=data.get("email"),
             dni=data.get("dni"),
@@ -85,6 +84,13 @@ def run_app(cls):
             start_url=data.get("start_url"),
             external_id=data.get("external_id"),
             candidate_id=data.get("candidate_id"),
+            country_code=data.get("country_code"),
+            mothers_name=data.get("mothers_name"),
+            city_of_birth=data.get("city_of_birth"),
+            country_of_birth=data.get("country_of_birth"),
+            driver_license_category=data.get("driver_license_category"),
+            driver_license_expiration_date=data.get("driver_license_expiration_date"),
+            social_identification_number=data.get("social_identification_number"),
         )
 
     def validate_request(signature):
