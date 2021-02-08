@@ -7,7 +7,6 @@ from typing import Dict, List
 class CheckData:
     first_name: str
     middle_names: str
-    no_middle_name: bool
     last_name: str
     email: str
     dni: str
@@ -24,6 +23,13 @@ class CheckData:
     external_id: str
     start_url: str
     candidate_id: str
+    country_code: str
+    mothers_name: str = None
+    city_of_birth: str = None
+    country_of_birth: str = None
+    driver_license_category: str = None
+    driver_license_expiration_date: date = None
+    social_identification_number: str = None
 
 
 @dataclass
